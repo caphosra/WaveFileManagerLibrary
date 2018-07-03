@@ -6,6 +6,9 @@
 # Tester
 WaveFileTester/
 
+# Assembly
+AssemblyInfo.cs
+
 # User-specific files
 *.suo
 *.user
