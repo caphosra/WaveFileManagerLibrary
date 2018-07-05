@@ -115,6 +115,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AssistFunc.h" />
+    <ClInclude Include="CreateInstance.h" />
     <ClInclude Include="DefineClass.h" />
     <ClInclude Include="LoadWaveFile.h" />
     <ClInclude Include="WaveFileManager.h" />

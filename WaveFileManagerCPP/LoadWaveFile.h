@@ -77,7 +77,7 @@ MusicPropertyMonaural16bit WaveFileManager::LoadFileMonaural16bits(string path)
 	#pragma endregion
 
 	WAVEFORMATEX format;
-	format = format.GetMonaural16bitsDefault;
+	format = format.GetMonaural16bitsDefault();
 
 	#pragma region フォーマットタグ
 
@@ -214,11 +214,14 @@ void WaveFileManager::CreateFile(string path, MusicPropertyMonaural16bit prop)
 		ConvertToLittleEndian(int8array, musicData.m_DataSize);
 		fs.write(int8array, sizeof(Int32));
 
+#pragma warning(push)
+#pragma warning(disable:4018)
 		for (int i = 0; i < musicData.m_Data.size(); i++)
 		{
 			ConvertToLittleEndian(int8array, musicData.m_Data[i]);
 			fs.write(int8array, sizeof(Int16));
 		}
+#pragma warning(pop)
 	}
 
 	//閉じる
@@ -248,11 +251,14 @@ void WaveFileManager::CreateFile(string path, MusicPropertyMonaural8bit prop)
 		ConvertToLittleEndian(int8array, musicData.m_DataSize);
 		fs.write(int8array, 4);
 
+#pragma warning(push)
+#pragma warning(disable:4018)
 		for (int i = 0; i < musicData.m_Data.size(); i++)
 		{
 			ConvertToLittleEndian(int8array, musicData.m_Data[i]);
 			fs.write(int8array, sizeof(Int8));
 		}
+#pragma warning(pop)
 	}
 
 	//閉じる

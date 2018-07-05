@@ -11,40 +11,6 @@ typedef char Int8;
 typedef unsigned int UInt32;
 typedef unsigned short UInt16;
 
-class MusicProperty
-{
-public:
-	Int32 m_FileSize;
-	Int32 m_PCMWAVEFORMAT_Size;
-	WAVEFORMATEX m_WaveFormatEx;
-};
-
-class MusicPropertyMonaural16bit : public MusicProperty
-{
-public:
-	MusicDataMonaural16bit m_MusicData;
-};
-
-class MusicPropertyMonaural8bit : public MusicProperty
-{
-public:
-	MusicDataMonaural8bit m_MusicData;
-};
-
-struct MusicDataMonaural16bit
-{
-public:
-	Int32 m_DataSize;
-	vector<Int16> m_Data;
-};
-
-struct MusicDataMonaural8bit
-{
-public:
-	Int32 m_DataSize;
-	vector<Int8> m_Data;
-};
-
 class WAVEFORMATEX
 {
 public:
@@ -94,8 +60,43 @@ WAVEFORMATEX WAVEFORMATEX::GetMonaural8bitsDefault()
 
 #pragma endregion
 
+struct MusicDataMonaural16bit
+{
+public:
+	Int32 m_DataSize;
+	vector<Int16> m_Data;
+};
+
+struct MusicDataMonaural8bit
+{
+public:
+	Int32 m_DataSize;
+	vector<Int8> m_Data;
+};
+
+class MusicProperty
+{
+public:
+	Int32 m_FileSize;
+	Int32 m_PCMWAVEFORMAT_Size;
+	WAVEFORMATEX m_WaveFormatEx;
+};
+
+class MusicPropertyMonaural16bit : public MusicProperty
+{
+public:
+	MusicDataMonaural16bit m_MusicData;
+};
+
+class MusicPropertyMonaural8bit : public MusicProperty
+{
+public:
+	MusicDataMonaural8bit m_MusicData;
+};
+
 class WaveFileManager
 {
+public:
 	MusicPropertyMonaural16bit LoadFileMonaural16bits(string path);
 	
 	void CreateFile(string path, MusicPropertyMonaural16bit prop);
