@@ -3,6 +3,12 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# Tester
+WaveFileTester/
+
+# Assembly
+AssemblyInfo.cs
+
 # User-specific files
 *.suo
 *.user

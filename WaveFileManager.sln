@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.27428.2043
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WaveFileManager", "WaveFileManager\WaveFileManager.csproj", "{73248112-9ED2-4305-9133-9259E3C78CB4}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WaveFileManagerCPP", "WaveFileManagerCPP\WaveFileManagerCPP.vcxproj", "{B6D0C2CA-B876-47DE-84FB-AAA07E546E4B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WaveFileTester", "WaveFileTester\WaveFileTester.vcxproj", "{222A08F3-968F-4FB5-91EC-832B53025EE5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,26 @@ Global
 		{73248112-9ED2-4305-9133-9259E3C78CB4}.Release|x64.Build.0 = Release|Any CPU
 		{73248112-9ED2-4305-9133-9259E3C78CB4}.Release|x86.ActiveCfg = Release|Any CPU
 		{73248112-9ED2-4305-9133-9259E3C78CB4}.Release|x86.Build.0 = Release|Any CPU
+		{B6D0C2CA-B876-47DE-84FB-AAA07E546E4B}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{B6D0C2CA-B876-47DE-84FB-AAA07E546E4B}.Debug|x64.ActiveCfg = Debug|x64
+		{B6D0C2CA-B876-47DE-84FB-AAA07E546E4B}.Debug|x64.Build.0 = Debug|x64
+		{B6D0C2CA-B876-47DE-84FB-AAA07E546E4B}.Debug|x86.ActiveCfg = Debug|Win32
+		{B6D0C2CA-B876-47DE-84FB-AAA07E546E4B}.Debug|x86.Build.0 = Debug|Win32
+		{B6D0C2CA-B876-47DE-84FB-AAA07E546E4B}.Release|Any CPU.ActiveCfg = Release|Win32
+		{B6D0C2CA-B876-47DE-84FB-AAA07E546E4B}.Release|x64.ActiveCfg = Release|x64
+		{B6D0C2CA-B876-47DE-84FB-AAA07E546E4B}.Release|x64.Build.0 = Release|x64
+		{B6D0C2CA-B876-47DE-84FB-AAA07E546E4B}.Release|x86.ActiveCfg = Release|Win32
+		{B6D0C2CA-B876-47DE-84FB-AAA07E546E4B}.Release|x86.Build.0 = Release|Win32
+		{222A08F3-968F-4FB5-91EC-832B53025EE5}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{222A08F3-968F-4FB5-91EC-832B53025EE5}.Debug|x64.ActiveCfg = Debug|x64
+		{222A08F3-968F-4FB5-91EC-832B53025EE5}.Debug|x64.Build.0 = Debug|x64
+		{222A08F3-968F-4FB5-91EC-832B53025EE5}.Debug|x86.ActiveCfg = Debug|Win32
+		{222A08F3-968F-4FB5-91EC-832B53025EE5}.Debug|x86.Build.0 = Debug|Win32
+		{222A08F3-968F-4FB5-91EC-832B53025EE5}.Release|Any CPU.ActiveCfg = Release|Win32
+		{222A08F3-968F-4FB5-91EC-832B53025EE5}.Release|x64.ActiveCfg = Release|x64
+		{222A08F3-968F-4FB5-91EC-832B53025EE5}.Release|x64.Build.0 = Release|x64
+		{222A08F3-968F-4FB5-91EC-832B53025EE5}.Release|x86.ActiveCfg = Release|Win32
+		{222A08F3-968F-4FB5-91EC-832B53025EE5}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
