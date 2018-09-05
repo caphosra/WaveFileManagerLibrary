@@ -3,8 +3,6 @@
 #include<vector>
 #include<string>
 
-using namespace std;
-
 typedef int Int32;
 typedef short Int16;
 typedef char Int8;
@@ -64,14 +62,14 @@ struct MusicDataMonaural16bit
 {
 public:
 	Int32 m_DataSize;
-	vector<Int16> m_Data;
+	std::vector<Int16> m_Data;
 };
 
 struct MusicDataMonaural8bit
 {
 public:
 	Int32 m_DataSize;
-	vector<Int8> m_Data;
+	std::vector<Int8> m_Data;
 };
 
 class MusicProperty
@@ -97,14 +95,14 @@ public:
 class WaveFileManager
 {
 public:
-	MusicPropertyMonaural16bit LoadFileMonaural16bits(string path);
+	MusicPropertyMonaural16bit LoadFileMonaural16bits(std::string path);
 	
-	void CreateFile(string path, MusicPropertyMonaural16bit prop);
-	void CreateFile(string path, MusicPropertyMonaural8bit prop);
+	void CreateFile(std::string path, MusicPropertyMonaural16bit prop);
+	void CreateFile(std::string path, MusicPropertyMonaural8bit prop);
 
-	void WriteMusicProperty(fstream* fs, MusicProperty prop);
+	void WriteMusicProperty(std::fstream* fs, MusicProperty prop);
 
-	void WriteWAVEFORMATEX(fstream* fs, WAVEFORMATEX format);
+	void WriteWAVEFORMATEX(std::fstream* fs, WAVEFORMATEX format);
 
 	Int32 ConvertToInt32(Int8* bytes);
 };

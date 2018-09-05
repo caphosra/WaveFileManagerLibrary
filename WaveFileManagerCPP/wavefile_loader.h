@@ -1,11 +1,11 @@
 #pragma once
 
-#include"DefineClass.h"
+#include"class_defines.h"
 
 #include<fstream>
 
 //
-// 常に同じ値のもの
+// Load to following array.
 //
 Int8 RIFF[]{ 0x52, 0x49, 0x46, 0x46 };
 Int8 WAVE[]{ 0x57, 0x41, 0x56, 0x45 };
@@ -15,16 +15,16 @@ Int8 data_CONST[]{ 0x64, 0x61, 0x74, 0x61 };
 /// <summary>
 /// Load wave file that is made by this program.
 /// </summary>
-MusicPropertyMonaural16bit WaveFileManager::LoadFileMonaural16bits(string path)
+MusicPropertyMonaural16bit WaveFileManager::LoadFileMonaural16bits(std::string path)
 {
 	MusicPropertyMonaural16bit property;
 
-	ifstream ifs(path, ios::in | ios::binary);
+	std::ifstream ifs(path, std::ios::in | std::ios::binary);
 
 	Int8 byte_16[2];
 	Int8 byte_32[4];
 
-	#pragma region RIFF(捨てる)
+	#pragma region Get RIFF(It will be threw away)
 
 	ifs.read(byte_32, 4);
 
@@ -35,16 +35,17 @@ MusicPropertyMonaural16bit WaveFileManager::LoadFileMonaural16bits(string path)
 
 	#pragma endregion
 
-	#pragma region ファイルのサイズ
-
+	#pragma region Get FileSize
 	ifs.read(byte_32, 4);
 
 	property.m_FileSize = ConvertToInt32(byte_32);
 
 	#pragma endregion
 
-	#pragma region WAVE(捨てる)
+	#pragma region Get WAVE(It will be threw away)
 
+	// If the file loading is wave file, 
+	// this function will return "WAVE".
 	ifs.read(byte_32, 4);
 
 	if (!SequenceEqual(byte_32, WAVE, 4))
@@ -54,7 +55,7 @@ MusicPropertyMonaural16bit WaveFileManager::LoadFileMonaural16bits(string path)
 
 	#pragma endregion
 
-	#pragma region  fmt(捨てる)
+	#pragma region  Get fmt(It will be threw away)
 
 	ifs.read(byte_32, 4);
 
@@ -65,7 +66,7 @@ MusicPropertyMonaural16bit WaveFileManager::LoadFileMonaural16bits(string path)
 
 	#pragma endregion
 
-	#pragma region  PCMWAVEFORMATのサイズ
+	#pragma region  Get the size of PCMWAVEFORMAT
 
 	ifs.read(byte_32, 4);
 
@@ -79,7 +80,7 @@ MusicPropertyMonaural16bit WaveFileManager::LoadFileMonaural16bits(string path)
 	WAVEFORMATEX format;
 	format = format.GetMonaural16bitsDefault();
 
-	#pragma region フォーマットタグ
+	#pragma region Get FormatTag
 
 	ifs.read(byte_16, 2);
 
@@ -90,7 +91,7 @@ MusicPropertyMonaural16bit WaveFileManager::LoadFileMonaural16bits(string path)
 
 	#pragma endregion
 
-	#pragma region チャンネル
+	#pragma region Get Channels
 
 	ifs.read(byte_16, 2);
 
@@ -101,7 +102,7 @@ MusicPropertyMonaural16bit WaveFileManager::LoadFileMonaural16bits(string path)
 
 	#pragma endregion
 
-	#pragma region サンプリング周波数 / サンプリングレート
+	#pragma region Get SamplesPerSec
 
 	ifs.read(byte_32, 4);
 
@@ -112,7 +113,7 @@ MusicPropertyMonaural16bit WaveFileManager::LoadFileMonaural16bits(string path)
 
 	#pragma endregion
 
-	#pragma region 平均データ転送レート
+	#pragma region  Get AvgBytePerSec
 
 	ifs.read(byte_32, 4);
 
@@ -123,7 +124,7 @@ MusicPropertyMonaural16bit WaveFileManager::LoadFileMonaural16bits(string path)
 
 	#pragma endregion
 
-	#pragma region データ転送のための最小単位
+	#pragma region Get BlockAlign
 
 	ifs.read(byte_16, 2);
 
@@ -134,7 +135,7 @@ MusicPropertyMonaural16bit WaveFileManager::LoadFileMonaural16bits(string path)
 
 	#pragma endregion
 
-	#pragma region サンプリングビット
+	#pragma region Get BitsPerSample
 
 	ifs.read(byte_16, 2);
 
@@ -145,7 +146,7 @@ MusicPropertyMonaural16bit WaveFileManager::LoadFileMonaural16bits(string path)
 
 	#pragma endregion
 
-	#pragma region data(捨てる)
+	#pragma region Get data(It will be threw away)
 
 	ifs.read(byte_32, 4);
 
@@ -158,7 +159,7 @@ MusicPropertyMonaural16bit WaveFileManager::LoadFileMonaural16bits(string path)
 
 	MusicDataMonaural16bit musicData;
 
-	#pragma region DataSize
+	#pragma region Get DataSize
 
 	ifs.read(byte_32, 4);
 
@@ -166,9 +167,9 @@ MusicPropertyMonaural16bit WaveFileManager::LoadFileMonaural16bits(string path)
 
 	#pragma endregion
 
-	#pragma region Data
+	#pragma region Get Data
 
-	vector<Int16> list;
+	std::vector<Int16> list;
 
 	for (; ; )
 	{
@@ -182,7 +183,7 @@ MusicPropertyMonaural16bit WaveFileManager::LoadFileMonaural16bits(string path)
 
 	#pragma endregion
 
-	//閉じる
+	// Close the file stream.
 	ifs.close();
 
 	property.m_WaveFormatEx = format;
@@ -194,9 +195,9 @@ MusicPropertyMonaural16bit WaveFileManager::LoadFileMonaural16bits(string path)
 /// <summary>
 /// Create simple wave file.
 /// </summary>
-void WaveFileManager::CreateFile(string path, MusicPropertyMonaural16bit prop)
+void WaveFileManager::CreateFile(std::string path, MusicPropertyMonaural16bit prop)
 {
-	fstream fs(path, ios::out | ios::binary);
+	std::fstream fs(path, std::ios::out | std::ios::binary);
 
 	WriteMusicProperty(&fs, prop);
 
@@ -208,7 +209,7 @@ void WaveFileManager::CreateFile(string path, MusicPropertyMonaural16bit prop)
 
 	MusicDataMonaural16bit musicData = prop.m_MusicData;
 	{
-		//汎用配列
+		//It means nothing.
 		Int8 int8array[4];
 
 		ConvertToLittleEndian(int8array, musicData.m_DataSize);
@@ -224,16 +225,16 @@ void WaveFileManager::CreateFile(string path, MusicPropertyMonaural16bit prop)
 #pragma warning(pop)
 	}
 
-	//閉じる
+	// Close the file stream.
 	fs.close();
 }
 
 /// <summary>
 /// Create simple wave file.
 /// </summary>
-void WaveFileManager::CreateFile(string path, MusicPropertyMonaural8bit prop)
+void WaveFileManager::CreateFile(std::string path, MusicPropertyMonaural8bit prop)
 {
-	fstream fs(path, ios::out | ios::binary);
+	std::fstream fs(path, std::ios::out | std::ios::binary);
 
 	WriteMusicProperty(&fs, prop);
 
@@ -245,7 +246,7 @@ void WaveFileManager::CreateFile(string path, MusicPropertyMonaural8bit prop)
 
 	MusicDataMonaural8bit musicData = prop.m_MusicData;
 	{
-		//汎用配列
+		// It means nothing.
 		Int8 int8array[4];
 
 		ConvertToLittleEndian(int8array, musicData.m_DataSize);
@@ -261,14 +262,14 @@ void WaveFileManager::CreateFile(string path, MusicPropertyMonaural8bit prop)
 #pragma warning(pop)
 	}
 
-	//閉じる
+	// Close the file stream.
 	fs.close();
 }
 
 //
-// privateなメンバー
+// private member
 //
-void WaveFileManager::WriteMusicProperty(fstream* fs, MusicProperty prop)
+void WaveFileManager::WriteMusicProperty(std::fstream* fs, MusicProperty prop)
 {
 	Int8 i[4];
 
@@ -285,7 +286,7 @@ void WaveFileManager::WriteMusicProperty(fstream* fs, MusicProperty prop)
 	fs->write(i, 4);
 }
 
-void WaveFileManager::WriteWAVEFORMATEX(fstream* fs, WAVEFORMATEX format)
+void WaveFileManager::WriteWAVEFORMATEX(std::fstream* fs, WAVEFORMATEX format)
 {
 	Int8 i[4];
 
