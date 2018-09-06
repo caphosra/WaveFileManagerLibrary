@@ -103,8 +103,6 @@ public:
 	void WriteMusicProperty(std::fstream* fs, MusicProperty prop);
 
 	void WriteWAVEFORMATEX(std::fstream* fs, WAVEFORMATEX format);
-
-	Int32 ConvertToInt32(Int8* bytes);
 };
 
 //
@@ -115,7 +113,7 @@ Int8 WAVE[]{ 0x57, 0x41, 0x56, 0x45 };
 Int8 fmt[]{ 0x66, 0x6D, 0x74, 0x20 };
 Int8 data_CONST[]{ 0x64, 0x61, 0x74, 0x61 };
 
-#pragma region ConvertToInt8*
+#pragma region ConvertFromNumberToArray
 
 void ConvertToLittleEndian(Int8* c, Int32 int32)
 {
@@ -139,16 +137,9 @@ void ConvertToLittleEndian(Int8* c, UInt16 int16)
 
 #pragma endregion
 
+#pragma region ConvertFromArrayToNumber
 
-template<typename T>
-T ConvertFromInt8Array(Int8* bytes)
-{
-	T t;
-	memcpy(&t, bytes, sizeof(T));
-	return t;
-}
-
-Int32 WaveFileManager::ConvertToInt32(Int8* bytes)
+Int32 ConvertToInt32(Int8* bytes)
 {
 	Int32 i;
 	memcpy(&i, bytes, sizeof(Int8) * 4);
@@ -158,11 +149,14 @@ Int32 WaveFileManager::ConvertToInt32(Int8* bytes)
 
 Int16 ConvertToInt16(Int8* bytes)
 {
-	Int32 i;
+	Int16 i;
 	memcpy(&i, bytes, sizeof(Int16));
 	return i;
 }
 
+#pragma endregion
+
+#if CAN_USE_TEMPLATE_IN_WAVEFILEMANAGER
 /// <summary>
 /// The arrays are same ?
 /// </summary>
@@ -175,3 +169,16 @@ bool SequenceEqual(T* a, T* b, int count)
 	}
 	return true;
 }
+#else
+/// <summary>
+/// The arrays are same ?
+/// </summary>
+bool SequenceEqual(Int8* a, Int8* b, int count)
+{
+	for (int i = 0; i < count; i++)
+	{
+		if (a[i] != b[i]) return false;
+	}
+	return true;
+}
+#endif
