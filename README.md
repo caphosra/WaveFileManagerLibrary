@@ -3,30 +3,44 @@ Using this library, you can create simple wave file quickly.
 
 ## Description
 
-With this you can write code to quickly create audio files. You can create audio files without struggle with binary files.
-Even if you are not good at file operations, you can write code intuitively.
-Since this library was originally developed for C#, there may be problems with the porting process to C++.
+With this, you can write code to create audio files quickly.:dash: And you can create audio files without struggle with binary files!:smile:  
+Even if you are not good at file operations, you can write code intuitively!  
+
+This library was originally developed for C#, but now, it is developed for C++.
+It means this library doesn't depend on .NET framework.
+If you want to use this on C#, you can download C# edition in the release page.:runner:
 
 ## Requirement
 
-C# library depends on .NET framework.
+This project depends on nothing.
 
 ## Usage
 
+If you want to make wavefile, you can do only following code with WaveFileManager.
 ```C++
-//#include "WaveFileManager.h"
+//#include "wavefile_manager.h"
+
+//Declare variables
 WaveFileManager waveFile;
 MusicPropertyMonaural16bit prop16bit;
 short soundData[44100 * 2];
+
 //Generate sound data (440Hz)
 GenerateSoundMonaural16bits(soundData, 440);
 prop16bit = GenerateMonaural16bits(soundData, 44100 * 2);
+
+//Create WaveFile
 waveFile.CreateFile("C:\\capra.wav", prop16bit);
 ```
 
 ## Install
 
-Go to [ReleasePage](https://github.com/capra314cabra/WaveFileManagerLibrary/releases) or Download [Code](https://github.com/capra314cabra/WaveFileManagerLibrary)
+1. Go to [ReleasePage](https://github.com/capra314cabra/WaveFileManagerLibrary/releases) and
+download the files.
+(or go to [GitHome](https://github.com/capra314cabra/WaveFileManagerLibrary)and download the zipfile)
+2. Include the files to your project.
+
+Only this.
 
 ## Contribution
 
