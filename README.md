@@ -4,11 +4,12 @@ Using this library, you can create simple wave file quickly.
 ## Description
 
 With this, you can write code to create audio files quickly.:dash: And you can create audio files without struggle with binary files!:smile:  
-Even if you are not good at file operations, you can write code intuitively!  
+Even if you are not good at file operations, you can write code intuitively!:ok_woman:  
 
 This library was originally developed for C#, but now, it is developed for C++.
+This project has been reborn for C++!:clap:
 It means this library doesn't depend on .NET framework.
-If you want to use this on C#, you can download C# edition in the release page.:runner:
+If you want to use this on C#, you can download C# edition in the release page but it maybe not latest version.
 
 ## Requirement
 
