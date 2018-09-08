@@ -120,7 +120,7 @@
     <ClInclude Include="class_defines.h" />
     <ClInclude Include="wavefile_loader.h" />
     <ClInclude Include="wavefile_manager.h" />
-    <ClInclude Include="wavefile_writer.h">
+    <ClInclude Include="wavefile_writer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
