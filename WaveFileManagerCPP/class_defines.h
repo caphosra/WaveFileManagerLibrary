@@ -2,6 +2,7 @@
 
 #include<vector>
 #include<string>
+#include<fstream>
 
 typedef int Int32;
 typedef short Int16;
@@ -115,30 +116,6 @@ Int8 RIFF[]{ 0x52, 0x49, 0x46, 0x46 };
 Int8 WAVE[]{ 0x57, 0x41, 0x56, 0x45 };
 Int8 fmt[]{ 0x66, 0x6D, 0x74, 0x20 };
 Int8 data_CONST[]{ 0x64, 0x61, 0x74, 0x61 };
-
-#pragma region ConvertFromNumberToArray
-
-void ConvertToLittleEndian(Int8* c, Int32 int32)
-{
-	memcpy(c, &int32, sizeof(int32));
-}
-
-void ConvertToLittleEndian(Int8* c, Int16 int16)
-{
-	memcpy(c, &int16, sizeof(int16));
-}
-
-void ConvertToLittleEndian(Int8* c, UInt32 int32)
-{
-	memcpy(c, &int32, sizeof(int32));
-}
-
-void ConvertToLittleEndian(Int8* c, UInt16 int16)
-{
-	memcpy(c, &int16, sizeof(int16));
-}
-
-#pragma endregion
 
 #pragma region ConvertFromArrayToNumber
 

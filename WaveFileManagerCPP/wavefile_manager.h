@@ -1,5 +1,6 @@
 #pragma once
 
+// Prevent the macro suffered
 #if NO_WRITE_FUNCS == 1
     #error NO_WRITE_FUNCS IS USED BY WAVEFILEMANAGER
 #endif

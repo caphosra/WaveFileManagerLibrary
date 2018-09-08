@@ -2,8 +2,6 @@
 
 #include"class_defines.h"
 
-#include<fstream>
-
 /// <summary>
 /// Load wave file that is made by this program.
 /// </summary>

@@ -1,6 +1,6 @@
-#include"class_defines.h"
+#pragma once
 
-#include<fstream>
+#include"class_defines.h"
 
 /// <summary>
 /// Create simple wave file.
@@ -22,14 +22,15 @@ void WaveFileManager::CreateFile(std::string path, MusicPropertyMonaural16bit pr
 		//It means nothing.
 		Int8 int8array[4];
 
-		ConvertToLittleEndian(int8array, musicData.m_DataSize);
+		memcpy(int8array, &musicData.m_DataSize, sizeof(Int32));
 		fs.write(int8array, sizeof(Int32));
 
 #pragma warning(push)
 #pragma warning(disable:4018)
 		for (int i = 0; i < musicData.m_Data.size(); i++)
 		{
-			ConvertToLittleEndian(int8array, musicData.m_Data[i]);
+			Int16 data = musicData.m_Data[i];
+			memcpy(int8array, &data, sizeof(Int16));
 			fs.write(int8array, sizeof(Int16));
 		}
 #pragma warning(pop)
@@ -59,14 +60,15 @@ void WaveFileManager::CreateFile(std::string path, MusicPropertyMonaural8bit pro
 		// It means nothing.
 		Int8 int8array[4];
 
-		ConvertToLittleEndian(int8array, musicData.m_DataSize);
+		memcpy(int8array, &musicData.m_DataSize, sizeof(Int32));
 		fs.write(int8array, 4);
 
 #pragma warning(push)
 #pragma warning(disable:4018)
 		for (int i = 0; i < musicData.m_Data.size(); i++)
 		{
-			ConvertToLittleEndian(int8array, musicData.m_Data[i]);
+			Int8 data = musicData.m_Data[i];
+			memcpy(int8array, &data, sizeof(Int8));
 			fs.write(int8array, sizeof(Int8));
 		}
 #pragma warning(pop)
@@ -85,14 +87,14 @@ void WaveFileManager::WriteMusicProperty(std::fstream* fs, MusicProperty prop)
 
 	fs->write(RIFF, 4);
 
-	ConvertToLittleEndian(i, prop.m_FileSize);
+	memcpy(i, &prop.m_FileSize, sizeof(Int32));
 	fs->write(i, 4);
 
 	fs->write(WAVE, 4);
 
 	fs->write(fmt, 4);
 
-	ConvertToLittleEndian(i, prop.m_PCMWAVEFORMAT_Size);
+	memcpy(i, &prop.m_PCMWAVEFORMAT_Size, sizeof(Int32));
 	fs->write(i, 4);
 }
 
@@ -100,21 +102,21 @@ void WaveFileManager::WriteWAVEFORMATEX(std::fstream* fs, WAVEFORMATEX format)
 {
 	Int8 i[4];
 
-	ConvertToLittleEndian(i, format.wFormatTag);
+	memcpy(i, &format.wFormatTag, sizeof(Int16));
 	fs->write(i, 2);
 
-	ConvertToLittleEndian(i, format.nChannels);
+	memcpy(i, &format.nChannels, sizeof(UInt16));
 	fs->write(i, 2);
 
-	ConvertToLittleEndian(i, format.nSamplesPerSec);
+	memcpy(i, &format.nSamplesPerSec, sizeof(UInt32));
 	fs->write(i, 4);
 
-	ConvertToLittleEndian(i, format.nAvgBytePerSec);
+	memcpy(i, &format.nAvgBytePerSec, sizeof(UInt32));
 	fs->write(i, 4);
 
-	ConvertToLittleEndian(i, format.nBlockAlign);
+	memcpy(i, &format.nBlockAlign, sizeof(UInt16));
 	fs->write(i, 2);
 
-	ConvertToLittleEndian(i, format.wBitsPerSample);
+	memcpy(i, &format.wBitsPerSample, sizeof(UInt16));
 	fs->write(i, 2);
 }
