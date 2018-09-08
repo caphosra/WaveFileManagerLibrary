@@ -11,14 +11,14 @@ MusicPropertyMonaural16bit WaveFileManager::LoadFileMonaural16bits(std::string p
 {
 	MusicPropertyMonaural16bit property;
 
-	std::ifstream ifs(path, std::ios::in | std::ios::binary);
+	std::fstream fs(path, std::ios::in | std::ios::binary);
 
 	Int8 byte_16[2];
 	Int8 byte_32[4];
 
 	#pragma region Get RIFF(It will be threw away)
 
-	ifs.read(byte_32, 4);
+	fs.read(byte_32, 4);
 
 	if (!SequenceEqual(byte_32, RIFF, 4))
 	{
@@ -28,7 +28,7 @@ MusicPropertyMonaural16bit WaveFileManager::LoadFileMonaural16bits(std::string p
 	#pragma endregion
 
 	#pragma region Get FileSize
-	ifs.read(byte_32, 4);
+	fs.read(byte_32, 4);
 
 	property.m_FileSize = ConvertToInt32(byte_32);
 
@@ -38,7 +38,7 @@ MusicPropertyMonaural16bit WaveFileManager::LoadFileMonaural16bits(std::string p
 
 	// If the file loading is wave file, 
 	// this function will return "WAVE".
-	ifs.read(byte_32, 4);
+	fs.read(byte_32, 4);
 
 	if (!SequenceEqual(byte_32, WAVE, 4))
 	{
@@ -49,7 +49,7 @@ MusicPropertyMonaural16bit WaveFileManager::LoadFileMonaural16bits(std::string p
 
 	#pragma region  Get fmt(It will be threw away)
 
-	ifs.read(byte_32, 4);
+	fs.read(byte_32, 4);
 
 	if (!SequenceEqual(byte_32, fmt, 4))
 	{
@@ -60,7 +60,7 @@ MusicPropertyMonaural16bit WaveFileManager::LoadFileMonaural16bits(std::string p
 
 	#pragma region  Get the size of PCMWAVEFORMAT
 
-	ifs.read(byte_32, 4);
+	fs.read(byte_32, 4);
 
 	if (ConvertToInt32(byte_32) != 16)
 	{
@@ -70,77 +70,12 @@ MusicPropertyMonaural16bit WaveFileManager::LoadFileMonaural16bits(std::string p
 	#pragma endregion
 
 	WAVEFORMATEX format;
-	format = format.GetMonaural16bitsDefault();
 
-	#pragma region Get FormatTag
-
-	ifs.read(byte_16, 2);
-
-	if (format.wFormatTag != ConvertToInt16(byte_16))
-	{
-		throw "It's WAVE file but does not correspond to this. arg=wFormatTag";
-	}
-
-	#pragma endregion
-
-	#pragma region Get Channels
-
-	ifs.read(byte_16, 2);
-
-	if (format.nChannels != ConvertToInt16(byte_16))
-	{
-		throw "It's WAVE file but does not correspond to this. arg=nChannels";
-	}
-
-	#pragma endregion
-
-	#pragma region Get SamplesPerSec
-
-	ifs.read(byte_32, 4);
-
-	if (format.nSamplesPerSec != ConvertToInt32(byte_32))
-	{
-		throw "It's WAVE file but does not correspond to this. arg=nSamplesPerSec";
-	}
-
-	#pragma endregion
-
-	#pragma region  Get AvgBytePerSec
-
-	ifs.read(byte_32, 4);
-
-	if (format.nAvgBytePerSec != ConvertToInt32(byte_32))
-	{
-		throw "It's WAVE file but does not correspond to this. arg=nAvgBytePerSec";
-	}
-
-	#pragma endregion
-
-	#pragma region Get BlockAlign
-
-	ifs.read(byte_16, 2);
-
-	if (format.nBlockAlign != ConvertToInt16(byte_16))
-	{
-		throw "It's WAVE file but does not correspond to this. arg=nBlockAlign";
-	}
-
-	#pragma endregion
-
-	#pragma region Get BitsPerSample
-
-	ifs.read(byte_16, 2);
-
-	if (format.wBitsPerSample != ConvertToInt16(byte_16))
-	{
-		throw "It's WAVE file but does not correspond to this. arg=wBitsPerSample";
-	}
-
-	#pragma endregion
+	ReadWAVEFORMATEX(&fs, &format);
 
 	#pragma region Get data(It will be threw away)
 
-	ifs.read(byte_32, 4);
+	fs.read(byte_32, 4);
 
 	if (!SequenceEqual(byte_32, data_CONST, 4))
 	{
@@ -153,7 +88,7 @@ MusicPropertyMonaural16bit WaveFileManager::LoadFileMonaural16bits(std::string p
 
 	#pragma region Get DataSize
 
-	ifs.read(byte_32, 4);
+	fs.read(byte_32, 4);
 
 	musicData.m_DataSize = ConvertToInt32(byte_32);
 
@@ -165,8 +100,8 @@ MusicPropertyMonaural16bit WaveFileManager::LoadFileMonaural16bits(std::string p
 
 	for (; ; )
 	{
-		ifs.read(byte_16, 2);
-		if (ifs.eof())
+		fs.read(byte_16, 2);
+		if (fs.eof())
 			break;
 		list.push_back(ConvertToInt16(byte_16));
 	}
@@ -176,10 +111,33 @@ MusicPropertyMonaural16bit WaveFileManager::LoadFileMonaural16bits(std::string p
 	#pragma endregion
 
 	// Close the file stream.
-	ifs.close();
+	fs.close();
 
 	property.m_WaveFormatEx = format;
 	property.m_MusicData = musicData;
 
 	return property;
+}
+
+void WaveFileManager::ReadWAVEFORMATEX(std::fstream* fs, WAVEFORMATEX* format)
+{
+	Int8 i[4];
+
+	fs->read(i, 2);
+	format->wFormatTag = ConvertToInt16(i);
+
+	fs->read(i, 2);
+	format->nChannels = ConvertToInt16(i);
+
+	fs->read(i, 4);
+	format->nSamplesPerSec = ConvertToInt32(i);
+
+	fs->read(i, 4);
+	format->nAvgBytePerSec = ConvertToInt32(i);
+
+	fs->read(i, 2);
+	format->nBlockAlign = ConvertToInt16(i);
+
+	fs->read(i, 2);
+	format->wBitsPerSample = ConvertToInt16(i);
 }

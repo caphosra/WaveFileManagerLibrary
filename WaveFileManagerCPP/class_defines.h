@@ -100,9 +100,12 @@ public:
 	void CreateFile(std::string path, MusicPropertyMonaural16bit prop);
 	void CreateFile(std::string path, MusicPropertyMonaural8bit prop);
 
+private:
 	void WriteMusicProperty(std::fstream* fs, MusicProperty prop);
-
 	void WriteWAVEFORMATEX(std::fstream* fs, WAVEFORMATEX format);
+
+	void ReadMusicProperty(std::fstream* fs, MusicProperty* prop);
+	void ReadWAVEFORMATEX(std::fstream* fs, WAVEFORMATEX* format);
 };
 
 //
