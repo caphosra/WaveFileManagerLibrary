@@ -23,17 +23,17 @@ public:
 	/// <summary>
 	/// Monaural 16bits 44100Hz
 	/// </summary>
-	WAVEFORMATEX GetMonaural16bitsDefault();
+	WAVEFORMATEX getMonaural16bitsDefault();
 
 	/// <summary>
 	/// Monaural 8bits 44100Hz
 	/// </summary>
-	WAVEFORMATEX GetMonaural8bitsDefault();
+	WAVEFORMATEX getMonaural8bitsDefault();
 };
 
 #pragma region WAVEFORMATEX Implement
 
-WAVEFORMATEX WAVEFORMATEX::GetMonaural16bitsDefault()
+WAVEFORMATEX WAVEFORMATEX::getMonaural16bitsDefault()
 {
 	WAVEFORMATEX format;
 	format.wFormatTag = 1;
@@ -45,7 +45,7 @@ WAVEFORMATEX WAVEFORMATEX::GetMonaural16bitsDefault()
 	return format;
 }
 
-WAVEFORMATEX WAVEFORMATEX::GetMonaural8bitsDefault()
+WAVEFORMATEX WAVEFORMATEX::getMonaural8bitsDefault()
 {
 	WAVEFORMATEX format;
 	format.wFormatTag = 1;
@@ -98,15 +98,15 @@ class WaveFileManager
 public:
 	MusicPropertyMonaural16bit LoadFileMonaural16bits(std::string path);
 	
-	void CreateFile(std::string path, MusicPropertyMonaural16bit prop);
-	void CreateFile(std::string path, MusicPropertyMonaural8bit prop);
+	void createFile(std::string path, MusicPropertyMonaural16bit prop);
+	void createFile(std::string path, MusicPropertyMonaural8bit prop);
 
 private:
-	void WriteMusicProperty(std::fstream* fs, MusicProperty prop);
-	void WriteWAVEFORMATEX(std::fstream* fs, WAVEFORMATEX format);
+	void writeMusicProperty(std::fstream* fs, MusicProperty prop);
+	void writeWAVEFORMATEX(std::fstream* fs, WAVEFORMATEX format);
 
-	void ReadMusicProperty(std::fstream* fs, MusicProperty* prop);
-	void ReadWAVEFORMATEX(std::fstream* fs, WAVEFORMATEX* format);
+	void readMusicProperty(std::fstream* fs, MusicProperty* prop);
+	void readWAVEFORMATEX(std::fstream* fs, WAVEFORMATEX* format);
 };
 
 //
@@ -119,7 +119,7 @@ Int8 data_CONST[]{ 0x64, 0x61, 0x74, 0x61 };
 
 #pragma region ConvertFromArrayToNumber
 
-Int32 ConvertToInt32(Int8* bytes)
+Int32 convertToInt32(Int8* bytes)
 {
 	Int32 i;
 	memcpy(&i, bytes, sizeof(Int8) * 4);
@@ -127,7 +127,7 @@ Int32 ConvertToInt32(Int8* bytes)
 
 }
 
-Int16 ConvertToInt16(Int8* bytes)
+Int16 convertToInt16(Int8* bytes)
 {
 	Int16 i;
 	memcpy(&i, bytes, sizeof(Int16));
@@ -141,7 +141,7 @@ Int16 ConvertToInt16(Int8* bytes)
 /// The arrays are same ?
 /// </summary>
 template<typename T>
-bool SequenceEqual(T* a, T* b, int count)
+bool sequenceEqual(T* a, T* b, int count)
 {
 	for (int i = 0; i < count; i++)
 	{
@@ -153,7 +153,7 @@ bool SequenceEqual(T* a, T* b, int count)
 /// <summary>
 /// The arrays are same ?
 /// </summary>
-bool SequenceEqual(Int8* a, Int8* b, int count)
+bool sequenceEqual(Int8* a, Int8* b, int count)
 {
 	for (int i = 0; i < count; i++)
 	{

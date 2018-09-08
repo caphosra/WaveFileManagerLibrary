@@ -5,15 +5,15 @@
 /// <summary>
 /// Create simple wave file.
 /// </summary>
-void WaveFileManager::CreateFile(std::string path, MusicPropertyMonaural16bit prop)
+void WaveFileManager::createFile(std::string path, MusicPropertyMonaural16bit prop)
 {
 	std::fstream fs(path, std::ios::out | std::ios::binary);
 
-	WriteMusicProperty(&fs, prop);
+	writeMusicProperty(&fs, prop);
 
 	WAVEFORMATEX format = prop.m_WaveFormatEx;
 
-	WriteWAVEFORMATEX(&fs, format);
+	writeWAVEFORMATEX(&fs, format);
 
 	fs.write(data_CONST, 4);
 
@@ -43,15 +43,15 @@ void WaveFileManager::CreateFile(std::string path, MusicPropertyMonaural16bit pr
 /// <summary>
 /// Create simple wave file.
 /// </summary>
-void WaveFileManager::CreateFile(std::string path, MusicPropertyMonaural8bit prop)
+void WaveFileManager::createFile(std::string path, MusicPropertyMonaural8bit prop)
 {
 	std::fstream fs(path, std::ios::out | std::ios::binary);
 
-	WriteMusicProperty(&fs, prop);
+	writeMusicProperty(&fs, prop);
 
 	WAVEFORMATEX format = prop.m_WaveFormatEx;
 
-	WriteWAVEFORMATEX(&fs, format);
+	writeWAVEFORMATEX(&fs, format);
 
 	fs.write(data_CONST, 4);
 
@@ -81,7 +81,7 @@ void WaveFileManager::CreateFile(std::string path, MusicPropertyMonaural8bit pro
 //
 // private member
 //
-void WaveFileManager::WriteMusicProperty(std::fstream* fs, MusicProperty prop)
+void WaveFileManager::writeMusicProperty(std::fstream* fs, MusicProperty prop)
 {
 	Int8 i[4];
 
@@ -98,7 +98,7 @@ void WaveFileManager::WriteMusicProperty(std::fstream* fs, MusicProperty prop)
 	fs->write(i, 4);
 }
 
-void WaveFileManager::WriteWAVEFORMATEX(std::fstream* fs, WAVEFORMATEX format)
+void WaveFileManager::writeWAVEFORMATEX(std::fstream* fs, WAVEFORMATEX format)
 {
 	Int8 i[4];
 

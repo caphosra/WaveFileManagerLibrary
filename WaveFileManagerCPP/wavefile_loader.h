@@ -18,7 +18,7 @@ MusicPropertyMonaural16bit WaveFileManager::LoadFileMonaural16bits(std::string p
 
 	fs.read(byte_32, 4);
 
-	if (!SequenceEqual(byte_32, RIFF, 4))
+	if (!sequenceEqual(byte_32, RIFF, 4))
 	{
 		throw "It's not RIFF format file.";
 	}
@@ -28,7 +28,7 @@ MusicPropertyMonaural16bit WaveFileManager::LoadFileMonaural16bits(std::string p
 	#pragma region Get FileSize
 	fs.read(byte_32, 4);
 
-	property.m_FileSize = ConvertToInt32(byte_32);
+	property.m_FileSize = convertToInt32(byte_32);
 
 	#pragma endregion
 
@@ -38,7 +38,7 @@ MusicPropertyMonaural16bit WaveFileManager::LoadFileMonaural16bits(std::string p
 	// this function will return "WAVE".
 	fs.read(byte_32, 4);
 
-	if (!SequenceEqual(byte_32, WAVE, 4))
+	if (!sequenceEqual(byte_32, WAVE, 4))
 	{
 		throw "It's not WAVE file.";
 	}
@@ -49,7 +49,7 @@ MusicPropertyMonaural16bit WaveFileManager::LoadFileMonaural16bits(std::string p
 
 	fs.read(byte_32, 4);
 
-	if (!SequenceEqual(byte_32, fmt, 4))
+	if (!sequenceEqual(byte_32, fmt, 4))
 	{
 		throw "It's not WAVE file.";
 	}
@@ -60,7 +60,7 @@ MusicPropertyMonaural16bit WaveFileManager::LoadFileMonaural16bits(std::string p
 
 	fs.read(byte_32, 4);
 
-	if (ConvertToInt32(byte_32) != 16)
+	if (convertToInt32(byte_32) != 16)
 	{
 		throw "It will have unnecessary chank.";
 	}
@@ -69,13 +69,13 @@ MusicPropertyMonaural16bit WaveFileManager::LoadFileMonaural16bits(std::string p
 
 	WAVEFORMATEX format;
 
-	ReadWAVEFORMATEX(&fs, &format);
+	readWAVEFORMATEX(&fs, &format);
 
 	#pragma region Get data(It will be threw away)
 
 	fs.read(byte_32, 4);
 
-	if (!SequenceEqual(byte_32, data_CONST, 4))
+	if (!sequenceEqual(byte_32, data_CONST, 4))
 	{
 		throw "It's not WAVE file.";
 	}
@@ -88,7 +88,7 @@ MusicPropertyMonaural16bit WaveFileManager::LoadFileMonaural16bits(std::string p
 
 	fs.read(byte_32, 4);
 
-	musicData.m_DataSize = ConvertToInt32(byte_32);
+	musicData.m_DataSize = convertToInt32(byte_32);
 
 	#pragma endregion
 
@@ -101,7 +101,7 @@ MusicPropertyMonaural16bit WaveFileManager::LoadFileMonaural16bits(std::string p
 		fs.read(byte_16, 2);
 		if (fs.eof())
 			break;
-		list.push_back(ConvertToInt16(byte_16));
+		list.push_back(convertToInt16(byte_16));
 	}
 
 	musicData.m_Data = list;
@@ -117,25 +117,25 @@ MusicPropertyMonaural16bit WaveFileManager::LoadFileMonaural16bits(std::string p
 	return property;
 }
 
-void WaveFileManager::ReadWAVEFORMATEX(std::fstream* fs, WAVEFORMATEX* format)
+void WaveFileManager::readWAVEFORMATEX(std::fstream* fs, WAVEFORMATEX* format)
 {
 	Int8 i[4];
 
 	fs->read(i, 2);
-	format->wFormatTag = ConvertToInt16(i);
+	format->wFormatTag = convertToInt16(i);
 
 	fs->read(i, 2);
-	format->nChannels = ConvertToInt16(i);
+	format->nChannels = convertToInt16(i);
 
 	fs->read(i, 4);
-	format->nSamplesPerSec = ConvertToInt32(i);
+	format->nSamplesPerSec = convertToInt32(i);
 
 	fs->read(i, 4);
-	format->nAvgBytePerSec = ConvertToInt32(i);
+	format->nAvgBytePerSec = convertToInt32(i);
 
 	fs->read(i, 2);
-	format->nBlockAlign = ConvertToInt16(i);
+	format->nBlockAlign = convertToInt16(i);
 
 	fs->read(i, 2);
-	format->wBitsPerSample = ConvertToInt16(i);
+	format->wBitsPerSample = convertToInt16(i);
 }
