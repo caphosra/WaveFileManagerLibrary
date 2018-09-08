@@ -2,8 +2,7 @@
 
 #include<vector>
 #include<string>
-
-using namespace std;
+#include<fstream>
 
 typedef int Int32;
 typedef short Int16;
@@ -24,17 +23,17 @@ public:
 	/// <summary>
 	/// Monaural 16bits 44100Hz
 	/// </summary>
-	WAVEFORMATEX GetMonaural16bitsDefault();
+	WAVEFORMATEX getMonaural16bitsDefault();
 
 	/// <summary>
 	/// Monaural 8bits 44100Hz
 	/// </summary>
-	WAVEFORMATEX GetMonaural8bitsDefault();
+	WAVEFORMATEX getMonaural8bitsDefault();
 };
 
 #pragma region WAVEFORMATEX Implement
 
-WAVEFORMATEX WAVEFORMATEX::GetMonaural16bitsDefault()
+WAVEFORMATEX WAVEFORMATEX::getMonaural16bitsDefault()
 {
 	WAVEFORMATEX format;
 	format.wFormatTag = 1;
@@ -46,7 +45,7 @@ WAVEFORMATEX WAVEFORMATEX::GetMonaural16bitsDefault()
 	return format;
 }
 
-WAVEFORMATEX WAVEFORMATEX::GetMonaural8bitsDefault()
+WAVEFORMATEX WAVEFORMATEX::getMonaural8bitsDefault()
 {
 	WAVEFORMATEX format;
 	format.wFormatTag = 1;
@@ -64,14 +63,14 @@ struct MusicDataMonaural16bit
 {
 public:
 	Int32 m_DataSize;
-	vector<Int16> m_Data;
+	std::vector<Int16> m_Data;
 };
 
 struct MusicDataMonaural8bit
 {
 public:
 	Int32 m_DataSize;
-	vector<Int8> m_Data;
+	std::vector<Int8> m_Data;
 };
 
 class MusicProperty
@@ -97,52 +96,30 @@ public:
 class WaveFileManager
 {
 public:
-	MusicPropertyMonaural16bit LoadFileMonaural16bits(string path);
+	MusicPropertyMonaural16bit LoadFileMonaural16bits(std::string path);
 	
-	void CreateFile(string path, MusicPropertyMonaural16bit prop);
-	void CreateFile(string path, MusicPropertyMonaural8bit prop);
+	void createFile(std::string path, MusicPropertyMonaural16bit prop);
+	void createFile(std::string path, MusicPropertyMonaural8bit prop);
 
-	void WriteMusicProperty(fstream* fs, MusicProperty prop);
+private:
+	void writeMusicProperty(std::fstream* fs, MusicProperty prop);
+	void writeWAVEFORMATEX(std::fstream* fs, WAVEFORMATEX format);
 
-	void WriteWAVEFORMATEX(fstream* fs, WAVEFORMATEX format);
-
-	Int32 ConvertToInt32(Int8* bytes);
+	void readMusicProperty(std::fstream* fs, MusicProperty* prop);
+	void readWAVEFORMATEX(std::fstream* fs, WAVEFORMATEX* format);
 };
 
-#pragma region ConvertToInt8*
+//
+// Word Array
+//
+Int8 RIFF[]{ 0x52, 0x49, 0x46, 0x46 };
+Int8 WAVE[]{ 0x57, 0x41, 0x56, 0x45 };
+Int8 fmt[]{ 0x66, 0x6D, 0x74, 0x20 };
+Int8 data_CONST[]{ 0x64, 0x61, 0x74, 0x61 };
 
-void ConvertToLittleEndian(Int8* c, Int32 int32)
-{
-	memcpy(c, &int32, sizeof(int32));
-}
+#pragma region ConvertFromArrayToNumber
 
-void ConvertToLittleEndian(Int8* c, Int16 int16)
-{
-	memcpy(c, &int16, sizeof(int16));
-}
-
-void ConvertToLittleEndian(Int8* c, UInt32 int32)
-{
-	memcpy(c, &int32, sizeof(int32));
-}
-
-void ConvertToLittleEndian(Int8* c, UInt16 int16)
-{
-	memcpy(c, &int16, sizeof(int16));
-}
-
-#pragma endregion
-
-
-template<typename T>
-T ConvertFromInt8Array(Int8* bytes)
-{
-	T t;
-	memcpy(&t, bytes, sizeof(T));
-	return t;
-}
-
-Int32 WaveFileManager::ConvertToInt32(Int8* bytes)
+Int32 convertToInt32(Int8* bytes)
 {
 	Int32 i;
 	memcpy(&i, bytes, sizeof(Int8) * 4);
@@ -150,18 +127,21 @@ Int32 WaveFileManager::ConvertToInt32(Int8* bytes)
 
 }
 
-Int16 ConvertToInt16(Int8* bytes)
+Int16 convertToInt16(Int8* bytes)
 {
-	Int32 i;
+	Int16 i;
 	memcpy(&i, bytes, sizeof(Int16));
 	return i;
 }
 
+#pragma endregion
+
+#if CAN_USE_TEMPLATE_IN_WAVEFILEMANAGER
 /// <summary>
 /// The arrays are same ?
 /// </summary>
 template<typename T>
-bool SequenceEqual(T* a, T* b, int count)
+bool sequenceEqual(T* a, T* b, int count)
 {
 	for (int i = 0; i < count; i++)
 	{
@@ -169,3 +149,16 @@ bool SequenceEqual(T* a, T* b, int count)
 	}
 	return true;
 }
+#else
+/// <summary>
+/// The arrays are same ?
+/// </summary>
+bool sequenceEqual(Int8* a, Int8* b, int count)
+{
+	for (int i = 0; i < count; i++)
+	{
+		if (a[i] != b[i]) return false;
+	}
+	return true;
+}
+#endif

@@ -115,11 +115,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AssistFunc.h" />
-    <ClInclude Include="CreateInstance.h" />
-    <ClInclude Include="DefineClass.h" />
-    <ClInclude Include="LoadWaveFile.h" />
-    <ClInclude Include="WaveFileManager.h" />
+    <ClInclude Include="assistfuncs.h" />
+    <ClInclude Include="instance_generator.h" />
+    <ClInclude Include="class_defines.h" />
+    <ClInclude Include="wavefile_loader.h" />
+    <ClInclude Include="wavefile_manager.h" />
+    <ClInclude Include="wavefile_writer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
