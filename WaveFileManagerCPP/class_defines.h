@@ -98,12 +98,12 @@ class WaveFileManager
 public:
 	MusicPropertyMonaural16bit LoadFileMonaural16bits(std::string path);
 	
-	void createFile(std::string path, MusicPropertyMonaural16bit prop);
-	void createFile(std::string path, MusicPropertyMonaural8bit prop);
+	void createFile(std::string path, MusicPropertyMonaural16bit* prop);
+	void createFile(std::string path, MusicPropertyMonaural8bit* prop);
 
 private:
-	void writeMusicProperty(std::fstream* fs, MusicProperty prop);
-	void writeWAVEFORMATEX(std::fstream* fs, WAVEFORMATEX format);
+	void writeMusicProperty(std::fstream* fs, MusicProperty* prop);
+	void writeWAVEFORMATEX(std::fstream* fs, WAVEFORMATEX* format);
 
 	void readMusicProperty(std::fstream* fs, MusicProperty* prop);
 	void readWAVEFORMATEX(std::fstream* fs, WAVEFORMATEX* format);
@@ -122,7 +122,7 @@ Int8 data_CONST[]{ 0x64, 0x61, 0x74, 0x61 };
 Int32 convertToInt32(Int8* bytes)
 {
 	Int32 i;
-	memcpy(&i, bytes, sizeof(Int8) * 4);
+	memcpy(&i, bytes, sizeof(Int32));
 	return i;
 
 }
@@ -136,7 +136,7 @@ Int16 convertToInt16(Int8* bytes)
 
 #pragma endregion
 
-#if CAN_USE_TEMPLATE_IN_WAVEFILEMANAGER
+#if WFM_CAN_USE_TEMPLATE
 /// <summary>
 /// The arrays are same ?
 /// </summary>
