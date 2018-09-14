@@ -2,7 +2,39 @@
 
 #include "class_defines.h"
 
-MusicPropertyMonaural16bit GenerateMonaural16bits(Int16* data, UInt32 length)
+WAVEFORMATEX getWAVEFORMATEX_Default(EFileType type)
+{
+	switch(type)
+	{
+		case Monaural8bits:
+			{
+				WAVEFORMATEX format;
+				format.wFormatTag = 1;
+				format.nChannels = 1;
+				format.nSamplesPerSec = 44100;
+				format.nAvgBytePerSec = 88200;
+				format.nBlockAlign = 2;
+				format.wBitsPerSample = 16;
+				return format;
+			}
+			break;
+		case Monaural16bits:
+			{
+				WAVEFORMATEX format;
+				format.wFormatTag = 1;
+				format.nChannels = 1;
+				format.nSamplesPerSec = 44100;
+				format.nAvgBytePerSec = 44100;
+				format.nBlockAlign = 1;
+				format.wBitsPerSample = 8;
+				return format;
+			}
+			break;
+	}
+	
+}
+
+MusicPropertyMonaural16bit generateMonaural16bits(Int16* data, UInt32 length)
 {
 	MusicPropertyMonaural16bit w;
 
@@ -10,7 +42,7 @@ MusicPropertyMonaural16bit GenerateMonaural16bits(Int16* data, UInt32 length)
 	w.m_PCMWAVEFORMAT_Size = 16;
 
 	WAVEFORMATEX waveformat;
-	w.m_WaveFormatEx = waveformat.GetMonaural16bitsDefault();
+	w.m_WaveFormatEx = waveformat.getMonaural16bitsDefault();
 
 	MusicDataMonaural16bit data16bit;
 	data16bit.m_DataSize = (sizeof(Int16) * length);
@@ -23,7 +55,7 @@ MusicPropertyMonaural16bit GenerateMonaural16bits(Int16* data, UInt32 length)
 	return w;
 }
 
-MusicPropertyMonaural8bit GenerateMonaural8bits(Int8* data, UInt32 length)
+MusicPropertyMonaural8bit generateMonaural8bits(Int8* data, UInt32 length)
 {
 	MusicPropertyMonaural8bit w;
 
@@ -31,7 +63,7 @@ MusicPropertyMonaural8bit GenerateMonaural8bits(Int8* data, UInt32 length)
 	w.m_PCMWAVEFORMAT_Size = 16;
 
 	WAVEFORMATEX waveformat;
-	w.m_WaveFormatEx = waveformat.GetMonaural8bitsDefault();
+	w.m_WaveFormatEx = waveformat.getMonaural8bitsDefault();
 
 	MusicDataMonaural8bit data8bit;
 	data8bit.m_DataSize = (sizeof(Int8) * length);

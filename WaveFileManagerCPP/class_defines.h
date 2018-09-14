@@ -1,5 +1,6 @@
 #pragma once
 
+#include<iostream>
 #include<vector>
 #include<string>
 #include<fstream>
@@ -9,6 +10,16 @@ typedef short Int16;
 typedef char Int8;
 typedef unsigned int UInt32;
 typedef unsigned short UInt16;
+
+/// <summary>
+/// Define the file type
+/// </summary>
+enum EFileType
+{
+	Monaural8bits = 1,
+	Monaural16bits = 2,
+
+};
 
 struct WAVEFORMATEX
 {
