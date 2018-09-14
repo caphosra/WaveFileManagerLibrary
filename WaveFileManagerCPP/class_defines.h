@@ -10,7 +10,7 @@ typedef char Int8;
 typedef unsigned int UInt32;
 typedef unsigned short UInt16;
 
-class WAVEFORMATEX
+struct WAVEFORMATEX
 {
 public:
 	Int16 wFormatTag;
@@ -73,7 +73,7 @@ public:
 	std::vector<Int8> m_Data;
 };
 
-class MusicProperty
+struct MusicProperty
 {
 public:
 	Int32 m_FileSize;
@@ -81,13 +81,13 @@ public:
 	WAVEFORMATEX m_WaveFormatEx;
 };
 
-class MusicPropertyMonaural16bit : public MusicProperty
+struct MusicPropertyMonaural16bit : public MusicProperty
 {
 public:
 	MusicDataMonaural16bit m_MusicData;
 };
 
-class MusicPropertyMonaural8bit : public MusicProperty
+struct MusicPropertyMonaural8bit : public MusicProperty
 {
 public:
 	MusicDataMonaural8bit m_MusicData;
