@@ -16,8 +16,8 @@ typedef unsigned short UInt16;
 /// </summary>
 enum EFileType
 {
-	Monaural8bits = 1,
-	Monaural16bits = 2,
+	MONAURAL_8BITS = 1,
+	MONAURAL_16BITS = 2,
 
 };
 
@@ -30,45 +30,7 @@ public:
 	UInt32 nAvgBytePerSec;
 	UInt16 nBlockAlign;
 	UInt16 wBitsPerSample;
-
-	/// <summary>
-	/// Monaural 16bits 44100Hz
-	/// </summary>
-	WAVEFORMATEX getMonaural16bitsDefault();
-
-	/// <summary>
-	/// Monaural 8bits 44100Hz
-	/// </summary>
-	WAVEFORMATEX getMonaural8bitsDefault();
 };
-
-#pragma region WAVEFORMATEX Implement
-
-WAVEFORMATEX WAVEFORMATEX::getMonaural16bitsDefault()
-{
-	WAVEFORMATEX format;
-	format.wFormatTag = 1;
-	format.nChannels = 1;
-	format.nSamplesPerSec = 44100;
-	format.nAvgBytePerSec = 88200;
-	format.nBlockAlign = 2;
-	format.wBitsPerSample = 16;
-	return format;
-}
-
-WAVEFORMATEX WAVEFORMATEX::getMonaural8bitsDefault()
-{
-	WAVEFORMATEX format;
-	format.wFormatTag = 1;
-	format.nChannels = 1;
-	format.nSamplesPerSec = 44100;
-	format.nAvgBytePerSec = 44100;
-	format.nBlockAlign = 1;
-	format.wBitsPerSample = 8;
-	return format;
-}
-
-#pragma endregion
 
 struct MusicDataMonaural16bit
 {
