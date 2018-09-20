@@ -11,6 +11,14 @@ typedef char Int8;
 typedef unsigned int UInt32;
 typedef unsigned short UInt16;
 
+#define C4 261.626
+#define D4 293.665
+#define E4 329.628
+#define F4 349.228
+#define G4 391.995
+#define A4 440.000
+#define B4 493.883
+
 /// <summary>
 /// Define the file type
 /// </summary>
