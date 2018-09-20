@@ -5,11 +5,11 @@
 ///
 /// Default is 44100Hz (SamplesPerSec)
 ///
-void getWAVEFORMATEX_Default(WAVEFORMATEX* format, EFileType type)
+void getWAVEFORMATEX_Default(WAVEFORMATEX* format, EDataType type)
 {
 	switch(type)
 	{
-		case Monaural8bits:
+		case MONAURAL_16BITS:
 			{
 				format->wFormatTag = 1;
 				format->nChannels = 1;
@@ -19,7 +19,7 @@ void getWAVEFORMATEX_Default(WAVEFORMATEX* format, EFileType type)
 				format->wBitsPerSample = 16;
 			}
 			break;
-		case Monaural16bits:
+		case MONAURAL_8BITS:
 			{
 				format->wFormatTag = 1;
 				format->nChannels = 1;
@@ -33,7 +33,7 @@ void getWAVEFORMATEX_Default(WAVEFORMATEX* format, EFileType type)
 	
 }
 
-WAVEFORMATEX getWAVEFORMATEX_Default(EFileType type)
+WAVEFORMATEX getWAVEFORMATEX_Default(EDataType type)
 {
 	WAVEFORMATEX format;
 	getWAVEFORMATEX_Default(&format, type);
@@ -41,47 +41,15 @@ WAVEFORMATEX getWAVEFORMATEX_Default(EFileType type)
 	
 }
 
-void generateMonaural16bits(MusicPropertyMonaural16bit* mpm, Int16* data, UInt32 length)
+void generateMusicProperty(MusicProperty* mpm, EDataType dataType, Int8* data, UInt32 size)
 {
-	mpm->m_FileSize = 36 + (sizeof(Int16) * length);
+	mpm->m_FileSize = 36 + size;
 	mpm->m_PCMWAVEFORMAT_Size = 16;
 
 	WAVEFORMATEX waveformat;
-	mpm->m_WaveFormatEx = getWAVEFORMATEX_Default(Monaural16bits);
+	mpm->m_WaveFormatEx = getWAVEFORMATEX_Default(dataType);
 
-	MusicDataMonaural16bit data16bit;
-	data16bit.m_DataSize = (sizeof(Int16) * length);
-
-	std::vector<Int16> v;
-	v.assign(data, data + length);
-	data16bit.m_Data = v;
-	mpm->m_MusicData = data16bit;
-}
-
-MusicPropertyMonaural16bit generateMonaural16bits(Int16* data, UInt32 length)
-{
-	MusicPropertyMonaural16bit w;
-	generateMonaural16bits(&w, data, length);
-	return w;
-}
-
-MusicPropertyMonaural8bit generateMonaural8bits(Int8* data, UInt32 length)
-{
-	MusicPropertyMonaural8bit w;
-
-	w.m_FileSize = 36 + (sizeof(Int8) * length);
-	w.m_PCMWAVEFORMAT_Size = 16;
-
-	WAVEFORMATEX waveformat;
-	w.m_WaveFormatEx = getWAVEFORMATEX_Default(Monaural8bits);
-
-	MusicDataMonaural8bit data8bit;
-	data8bit.m_DataSize = (sizeof(Int8) * length);
-	
-	std::vector<Int8> v;
-	v.assign(data, data + length);
-	data8bit.m_Data = v;
-	w.m_MusicData = data8bit;
-
-	return w;
+	mpm->m_DataSize = size;
+	mpm->m_DataType = dataType;
+	mpm->m_Data = data;
 }

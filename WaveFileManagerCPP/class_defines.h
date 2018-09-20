@@ -14,7 +14,7 @@ typedef unsigned short UInt16;
 /// <summary>
 /// Define the file type
 /// </summary>
-enum EFileType
+enum EDataType
 {
 	MONAURAL_8BITS = 1,
 	MONAURAL_16BITS = 2,
@@ -32,47 +32,24 @@ public:
 	UInt16 wBitsPerSample;
 };
 
-struct MusicDataMonaural16bit
-{
-public:
-	Int32 m_DataSize;
-	std::vector<Int16> m_Data;
-};
-
-struct MusicDataMonaural8bit
-{
-public:
-	Int32 m_DataSize;
-	std::vector<Int8> m_Data;
-};
-
 struct MusicProperty
 {
 public:
 	Int32 m_FileSize;
 	Int32 m_PCMWAVEFORMAT_Size;
 	WAVEFORMATEX m_WaveFormatEx;
-};
 
-struct MusicPropertyMonaural16bit : public MusicProperty
-{
-public:
-	MusicDataMonaural16bit m_MusicData;
-};
-
-struct MusicPropertyMonaural8bit : public MusicProperty
-{
-public:
-	MusicDataMonaural8bit m_MusicData;
+	Int32 m_DataSize;
+	EDataType m_DataType;
+	Int8* m_Data;
 };
 
 class WaveFileManager
 {
 public:
-	MusicPropertyMonaural16bit LoadFileMonaural16bits(std::string path);
+	MusicProperty LoadFileMonaural16bits(std::string path);
 	
-	void createFile(std::string path, MusicPropertyMonaural16bit* prop);
-	void createFile(std::string path, MusicPropertyMonaural8bit* prop);
+	void createFile(std::string path, MusicProperty* prop);
 
 private:
 	void writeMusicProperty(std::fstream* fs, MusicProperty* prop);
