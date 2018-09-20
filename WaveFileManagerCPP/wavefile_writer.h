@@ -5,7 +5,7 @@
 /// <summary>
 /// Create simple wave file.
 /// </summary>
-void WaveFileManager::createFile(std::string path, MusicPropertyMonaural16bit* prop)
+void WaveFileManager::createFile(std::string path, MusicProperty* prop)
 {
 	std::fstream fs(path, std::ios::out | std::ios::binary);
 
@@ -17,62 +17,48 @@ void WaveFileManager::createFile(std::string path, MusicPropertyMonaural16bit* p
 
 	fs.write(data_CONST, 4);
 
-	MusicDataMonaural16bit musicData = prop->m_MusicData;
+	switch (prop->m_DataType)
 	{
-		//It means nothing.
-		Int8 int8array[4];
+	case MONAURAL_16BITS:
+		{
+			//It means nothing.
+			Int8 int8array[4];
 
-		memcpy(int8array, &musicData.m_DataSize, sizeof(Int32));
-		fs.write(int8array, sizeof(Int32));
+			memcpy(int8array, &(prop->m_DataSize), sizeof(Int32));
+			fs.write(int8array, sizeof(Int32));
 
 #pragma warning(push)
 #pragma warning(disable:4018)
-		for (int i = 0; i < musicData.m_Data.size(); i++)
-		{
-			Int16 data = musicData.m_Data[i];
-			memcpy(int8array, &data, sizeof(Int16));
-			fs.write(int8array, sizeof(Int16));
-		}
+			for (int i = 0; i < (prop->m_DataSize / sizeof(Int16)); i++)
+			{
+				Int16 data = ((Int16*)(prop->m_Data))[i];
+				memcpy(int8array, &data, sizeof(Int16));
+				fs.write(int8array, sizeof(Int16));
+			}
 #pragma warning(pop)
+		}
+		break;
+	case MONAURAL_8BITS:
+		{
+			// It means nothing.
+			Int8 int8array[4];
+
+			memcpy(int8array, &(prop->m_DataSize), sizeof(Int32));
+			fs.write(int8array, 4);
+
+	#pragma warning(push)
+	#pragma warning(disable:4018)
+			for (int i = 0; i < (prop->m_DataSize / sizeof(Int8)); i++)
+			{
+				memcpy(int8array, &(prop->m_Data[i]), sizeof(Int8));
+				fs.write(int8array, sizeof(Int8));
+			}
+	#pragma warning(pop)
+		}
+		break;
 	}
 
-	// Close the file stream.
-	fs.close();
-}
-
-/// <summary>
-/// Create simple wave file.
-/// </summary>
-void WaveFileManager::createFile(std::string path, MusicPropertyMonaural8bit* prop)
-{
-	std::fstream fs(path, std::ios::out | std::ios::binary);
-
-	writeMusicProperty(&fs, prop);
-
-	WAVEFORMATEX format = prop->m_WaveFormatEx;
-
-	writeWAVEFORMATEX(&fs, &format);
-
-	fs.write(data_CONST, 4);
-
-	MusicDataMonaural8bit musicData = prop->m_MusicData;
-	{
-		// It means nothing.
-		Int8 int8array[4];
-
-		memcpy(int8array, &musicData.m_DataSize, sizeof(Int32));
-		fs.write(int8array, 4);
-
-#pragma warning(push)
-#pragma warning(disable:4018)
-		for (int i = 0; i < musicData.m_Data.size(); i++)
-		{
-			Int8 data = musicData.m_Data[i];
-			memcpy(int8array, &data, sizeof(Int8));
-			fs.write(int8array, sizeof(Int8));
-		}
-#pragma warning(pop)
-	}
+	
 
 	// Close the file stream.
 	fs.close();

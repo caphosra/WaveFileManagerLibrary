@@ -5,11 +5,16 @@
 #define _USE_MATH_DEFINES
 #include<math.h>
 
-// Return  sounds data (length : samplesPerSec * 2)
-void GenerateSoundMonaural16bits(Int16* sound, double herth, int samplesPerSec = 44100)
+// Return sounds data
+void GenerateSoundMonaural16bits(Int8* begin, UInt32 size, double herth, int samplesPerSec = 44100)
 {
-	for (int i = 0; i < samplesPerSec * 2; i++)
+	const int VOLUME = 30000;
+
+	Int16 sound;
+
+	for (int i = 0; i < (size / 2); i++)
 	{
-		sound[i] = ((short)(sin(i / (double)samplesPerSec * 2 * M_PI * herth) * 30000));
+		sound = ((short)(sin(i / (double)samplesPerSec * 2 * M_PI * herth) * VOLUME));
+		memcpy(begin + (i * 2), &sound, sizeof(Int16));
 	}
 }

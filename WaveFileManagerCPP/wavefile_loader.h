@@ -5,9 +5,11 @@
 /// <summary>
 /// Load wave file that is made by this program.
 /// </summary>
-MusicPropertyMonaural16bit WaveFileManager::LoadFileMonaural16bits(std::string path)
+MusicProperty WaveFileManager::LoadFileMonaural16bits(std::string path)
 {
-	MusicPropertyMonaural16bit property;
+	MusicProperty property;
+
+	property.m_DataType = MONAURAL_16BITS;
 
 	std::fstream fs(path, std::ios::in | std::ios::binary);
 
@@ -82,13 +84,11 @@ MusicPropertyMonaural16bit WaveFileManager::LoadFileMonaural16bits(std::string p
 
 	#pragma endregion
 
-	MusicDataMonaural16bit musicData;
-
 	#pragma region Get DataSize
 
 	fs.read(byte_32, 4);
 
-	musicData.m_DataSize = convertToInt32(byte_32);
+	property.m_DataSize = convertToInt32(byte_32);
 
 	#pragma endregion
 
@@ -104,7 +104,8 @@ MusicPropertyMonaural16bit WaveFileManager::LoadFileMonaural16bits(std::string p
 		list.push_back(convertToInt16(byte_16));
 	}
 
-	musicData.m_Data = list;
+	property.m_Data = (Int8*)&list[0];
+	property.m_DataSize = list.size() * sizeof(Int16);
 
 	#pragma endregion
 
@@ -112,7 +113,6 @@ MusicPropertyMonaural16bit WaveFileManager::LoadFileMonaural16bits(std::string p
 	fs.close();
 
 	property.m_WaveFormatEx = format;
-	property.m_MusicData = musicData;
 
 	return property;
 }
