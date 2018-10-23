@@ -2,17 +2,19 @@
 
 #include "class_defines.h"
 
-#define _USE_MATH_DEFINES
-#include<math.h>
+Int32 convertToInt32(Int8* bytes);
+Int16 convertToInt16(Int8* bytes);
 
-// Return sounds data
-void generateSoundMonaural16bits(Int8* begin, UInt32 size, double herth, int samplesPerSec = 44100, int volume = 30000)
-{
-	Int16 sound;
+#if WFM_CAN_USE_TEMPLATE
+/// <summary>
+/// The arrays are same ?
+/// </summary>
+template<typename T>
+bool sequenceEqual(T* a, T* b, int count);
+#else
+/// <summary>
+/// The arrays are same ?
+/// </summary>
+bool sequenceEqual(Int8* a, Int8* b, int count);
+#endif
 
-	for (int i = 0; i < (size / 2); i++)
-	{
-		sound = ((short)(sin(i / (double)samplesPerSec * 2 * M_PI * herth) * volume));
-		memcpy(begin + (i * 2), &sound, sizeof(Int16));
-	}
-}

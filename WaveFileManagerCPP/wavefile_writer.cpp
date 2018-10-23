@@ -1,5 +1,3 @@
-#pragma once
-
 #include"class_defines.h"
 
 /// <summary>
@@ -20,45 +18,43 @@ void WaveFileManager::createFile(std::string path, MusicProperty* prop)
 	switch (prop->m_DataType)
 	{
 	case MONAURAL_16BITS:
-		{
-			//It means nothing.
-			Int8 int8array[4];
+	{
+		//It means nothing.
+		Int8 int8array[4];
 
-			memcpy(int8array, &(prop->m_DataSize), sizeof(Int32));
-			fs.write(int8array, sizeof(Int32));
+		memcpy(int8array, &(prop->m_DataSize), sizeof(Int32));
+		fs.write(int8array, sizeof(Int32));
 
 #pragma warning(push)
 #pragma warning(disable:4018)
-			for (int i = 0; i < (prop->m_DataSize / sizeof(Int16)); i++)
-			{
-				Int16 data = ((Int16*)(prop->m_Data))[i];
-				memcpy(int8array, &data, sizeof(Int16));
-				fs.write(int8array, sizeof(Int16));
-			}
-#pragma warning(pop)
-		}
-		break;
-	case MONAURAL_8BITS:
+		for (int i = 0; i < (prop->m_DataSize / sizeof(Int16)); i++)
 		{
-			// It means nothing.
-			Int8 int8array[4];
-
-			memcpy(int8array, &(prop->m_DataSize), sizeof(Int32));
-			fs.write(int8array, 4);
-
-	#pragma warning(push)
-	#pragma warning(disable:4018)
-			for (int i = 0; i < (prop->m_DataSize / sizeof(Int8)); i++)
-			{
-				memcpy(int8array, &(prop->m_Data[i]), sizeof(Int8));
-				fs.write(int8array, sizeof(Int8));
-			}
-	#pragma warning(pop)
+			Int16 data = ((Int16*)(prop->m_Data))[i];
+			memcpy(int8array, &data, sizeof(Int16));
+			fs.write(int8array, sizeof(Int16));
 		}
-		break;
+#pragma warning(pop)
 	}
+	break;
+	case MONAURAL_8BITS:
+	{
+		// It means nothing.
+		Int8 int8array[4];
 
-	
+		memcpy(int8array, &(prop->m_DataSize), sizeof(Int32));
+		fs.write(int8array, 4);
+
+#pragma warning(push)
+#pragma warning(disable:4018)
+		for (int i = 0; i < (prop->m_DataSize / sizeof(Int8)); i++)
+		{
+			memcpy(int8array, &(prop->m_Data[i]), sizeof(Int8));
+			fs.write(int8array, sizeof(Int8));
+		}
+#pragma warning(pop)
+	}
+	break;
+	}
 
 	// Close the file stream.
 	fs.close();
