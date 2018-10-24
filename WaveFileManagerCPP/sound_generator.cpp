@@ -4,7 +4,7 @@
 #include<math.h>
 #undef _USE_MATH_DEFINES
 
-void generateSoundMonaural16bits(Int8* begin, UInt32 size, double herth, int samplesPerSec = 44100, int volume = 30000)
+extern "C" void generateSoundMonaural16bits(Int8* begin, UInt32 size, double herth, int samplesPerSec, int volume)
 {
 	Int16 sound;
 

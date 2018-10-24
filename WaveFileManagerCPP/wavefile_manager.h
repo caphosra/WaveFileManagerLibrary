@@ -1,12 +1,15 @@
 #pragma once
 
-#if WAVEFILE_EXPORT
+#if defined WAVEFILE_EXPORT
 	#define WAVEFILE_API __declspec(dllexport)
-#elif WAVEFILE_IMPORT
+#elif defined WAVEFILE_IMPORT
 	#define WAVEFILE_API __declspec(dllimport)
 #else
 	#define WAVEFILE_API
 #endif
+
+#include "class_defines.h"
+#include "assistfuncs.h"
 
 #ifndef WITHOUT_ASSIST_FUNCS
     #include"sound_generator.h"

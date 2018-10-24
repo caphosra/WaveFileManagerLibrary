@@ -2,11 +2,18 @@
 
 #include "class_defines.h"
 
-///
-/// Default is 44100Hz (SamplesPerSec)
-///
-void getWAVEFORMATEX_Default(WAVEFORMATEX* format, EDataType type);
+#ifndef WAVEFILE_API
+	#define WAVEFILE_API 
+#endif
 
-WAVEFORMATEX getWAVEFORMATEX_Default(EDataType type);
+extern "C"
+{
+	///
+	/// Default is 44100Hz (SamplesPerSec)
+	///
+	void WAVEFILE_API generateWAVEFORMATEX(WAVEFORMATEX* format, EDataType type);
 
-void generateMusicProperty(MusicProperty* mpm, EDataType dataType, Int8* data, UInt32 size);
+	WAVEFORMATEX WAVEFILE_API getWAVEFORMATEX_Default(EDataType type);
+
+	void  WAVEFILE_API generateMusicProperty(MusicProperty* mpm, WAVEFORMATEX* waveFormat, EDataType type, Int8* data, UInt32 size);
+}
