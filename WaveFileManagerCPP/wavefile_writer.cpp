@@ -1,11 +1,15 @@
 #include"class_defines.h"
+#include"wavefile_stream.h"
 
 extern "C"
 {
+	void writeMusicProperty(std::fstream* fs, MusicProperty* prop);
+	void writeWAVEFORMATEX(std::fstream* fs, WAVEFORMATEX* format);
+
 	/// <summary>
 	/// Create simple wave file.
 	/// </summary>
-	void WaveFileManager::createFile(std::string path, MusicProperty* prop)
+	void createFile(std::string path, MusicProperty* prop)
 	{
 		Int8 data_CONST[]{ 0x64, 0x61, 0x74, 0x61 };
 
@@ -67,7 +71,7 @@ extern "C"
 	//
 	// private member
 	//
-	void WaveFileManager::writeMusicProperty(std::fstream* fs, MusicProperty* prop)
+	void writeMusicProperty(std::fstream* fs, MusicProperty* prop)
 	{
 		Int8 RIFF[]{ 0x52, 0x49, 0x46, 0x46 };
 		Int8 WAVE[]{ 0x57, 0x41, 0x56, 0x45 };
@@ -88,7 +92,7 @@ extern "C"
 		fs->write(i, 4);
 	}
 
-	void WaveFileManager::writeWAVEFORMATEX(std::fstream* fs, WAVEFORMATEX* format)
+	void writeWAVEFORMATEX(std::fstream* fs, WAVEFORMATEX* format)
 	{
 		Int8 i[4];
 

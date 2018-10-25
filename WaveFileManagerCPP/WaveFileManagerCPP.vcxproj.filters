@@ -30,6 +30,9 @@
     <ClInclude Include="assistfuncs.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="wavefile_stream.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="wavefile_loader.cpp">

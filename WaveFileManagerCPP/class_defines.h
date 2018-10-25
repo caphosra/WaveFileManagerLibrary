@@ -57,19 +57,4 @@ extern "C"
 		EDataType m_DataType;
 		Int8* m_Data;
 	};
-
-	class WAVEFILE_API WaveFileManager
-	{
-	public:
-		MusicProperty LoadFileMonaural16bits(std::string path);
-
-		void createFile(std::string path, MusicProperty* prop);
-
-	private:
-		void writeMusicProperty(std::fstream* fs, MusicProperty* prop);
-		void writeWAVEFORMATEX(std::fstream* fs, WAVEFORMATEX* format);
-
-		void readMusicProperty(std::fstream* fs, MusicProperty* prop);
-		void readWAVEFORMATEX(std::fstream* fs, WAVEFORMATEX* format);
-	};
 }

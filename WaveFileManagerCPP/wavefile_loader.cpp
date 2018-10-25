@@ -1,13 +1,17 @@
 #include"class_defines.h"
-#include "assistfuncs.h"
+#include"assistfuncs.h"
+#include"wavefile_stream.h"
 
 
 extern "C"
 {
+	void readMusicProperty(std::fstream* fs, MusicProperty* prop);
+	void readWAVEFORMATEX(std::fstream* fs, WAVEFORMATEX* format);
+
 	/// <summary>
 	/// Load wave file that is made by this program.
 	/// </summary>
-	MusicProperty WaveFileManager::LoadFileMonaural16bits(std::string path)
+	MusicProperty LoadFileMonaural16bits(std::string path)
 	{
 		Int8 RIFF[]{ 0x52, 0x49, 0x46, 0x46 };
 		Int8 WAVE[]{ 0x57, 0x41, 0x56, 0x45 };
@@ -124,7 +128,7 @@ extern "C"
 		return property;
 	}
 
-	void WaveFileManager::readWAVEFORMATEX(std::fstream* fs, WAVEFORMATEX* format)
+	void readWAVEFORMATEX(std::fstream* fs, WAVEFORMATEX* format)
 	{
 		Int8 i[4];
 
