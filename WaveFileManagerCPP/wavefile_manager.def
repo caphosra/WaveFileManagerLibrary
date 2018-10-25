@@ -1,0 +1,40 @@
+LIBRARY wavefile_manager
+
+VERSION 1.0
+ 
+DESCRIPTION "You can write code to create a wavefile quickly"
+ 
+ EXPORTS
+	;
+	;wavefile_stream
+	;
+	LoadFileMonaural16bits @1
+	createFile @2
+
+	;
+	;instance_generator
+	;
+	generateWAVEFORMATEX @3
+	getWAVEFORMATEX_Default @4
+	generateMusicProperty @5
+
+	;
+	;sound_generator
+	;
+	generateSoundMonaural16bits @6
+
+	;
+	;assistfuncs
+	;
+	convertToInt32 @7
+	convertToInt16 @8
+	sequenceEqual @9
+
+	;
+	;noname_funcs
+	;
+	writeMusicProperty @10 NONAME
+	writeWAVEFORMATEX @11 NONAME
+
+	;readMusicProperty @12 NONAME
+	readWAVEFORMATEX @13 NONAME
