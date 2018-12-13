@@ -8,7 +8,7 @@ DESCRIPTION "You can write code to create a wavefile quickly"
 	;
 	;wavefile_stream
 	;
-	LoadFileMonaural16bits @1
+	loadFileMonaural16bits @1
 	createFile @2
 
 	;

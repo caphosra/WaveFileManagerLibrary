@@ -4,7 +4,7 @@
 
 extern "C"
 {
-	MusicProperty LoadFileMonaural16bits(std::string path);
+	MusicProperty loadFileMonaural16bits(const char* path);
 
-	void createFile(std::string path, MusicProperty* prop);
+	void createFile(const char* path, MusicProperty* prop);
 }

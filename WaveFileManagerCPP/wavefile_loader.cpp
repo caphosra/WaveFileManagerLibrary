@@ -11,7 +11,7 @@ extern "C"
 	/// <summary>
 	/// Load wave file that is made by this program.
 	/// </summary>
-	MusicProperty LoadFileMonaural16bits(std::string path)
+	MusicProperty loadFileMonaural16bits(const char* path)
 	{
 		Int8 RIFF[]{ 0x52, 0x49, 0x46, 0x46 };
 		Int8 WAVE[]{ 0x57, 0x41, 0x56, 0x45 };

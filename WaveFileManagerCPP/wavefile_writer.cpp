@@ -9,7 +9,7 @@ extern "C"
 	/// <summary>
 	/// Create simple wave file.
 	/// </summary>
-	void createFile(std::string path, MusicProperty* prop)
+	void createFile(const char* path, MusicProperty* prop)
 	{
 		Int8 data_CONST[]{ 0x64, 0x61, 0x74, 0x61 };
 
