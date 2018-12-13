@@ -8,6 +8,17 @@ using WFM.Native;
 
 namespace WFM
 {
+    public static class Hertz
+    {
+        public const double C4 = 261.626;
+        public const double D4 = 293.665;
+        public const double E4 = 329.628;
+        public const double F4 = 349.228;
+        public const double G4 = 391.995;
+        public const double A4 = 440.000;
+        public const double B4 = 493.883;
+    }
+
     [StructLayout(LayoutKind.Sequential)]
     public struct MusicProperty
     {
@@ -30,7 +41,7 @@ namespace WFM
     [StructLayout(LayoutKind.Sequential)]
     public struct WAVEFORMATEX
     {
-        public byte wFormatTag;
+        public short wFormatTag;
         public ushort nChannels;
         public uint nSamplesPerSec;
         public uint nAvgBytePerSec;
@@ -74,7 +85,20 @@ namespace WFM
 
             Marshal.FreeHGlobal(propPtr);
             Marshal.FreeHGlobal(formatPtr);
-            Marshal.FreeHGlobal(ptr);
+
+            // It should be free, but can't do that.
+            // This bug will be fixed.
+            // Marshal.FreeHGlobal(ptr);
+        }
+
+        public static void GenerateSoundMonaural16bits(byte[] data, double herth, int samplesPerSec = 44100, int volume = 30000)
+        {
+            var dataPtr = Marshal.AllocHGlobal(data.Length);
+            Marshal.Copy(data, 0, dataPtr, data.Length);
+
+            WaveFileManagerNative.generateSoundMonaural16bits(dataPtr, (uint)data.Length, herth, samplesPerSec, volume);
+
+            Marshal.Copy(dataPtr, data, 0, data.Length);
         }
     }
 }
