@@ -1,5 +1,6 @@
 # WaveFileManagerLibrary
-Using this library, you can create simple wave file quickly.
+
+Using this library, you can quickly write code to create simple wave file.
 
 ## Description
 
@@ -13,25 +14,56 @@ If you want to use this on C#, you can download C# edition in the release page b
 
 ## Requirement
 
-This project depends on nothing.
+This project depends on nothing (C++ edition)  
+This project depends on .NET framework or .NET Core (C# edtion)
 
 ## Usage
 
-If you want to make wavefile, you can do only following code with WaveFileManager.
+I will show an example about this.
+A detailed explanation about this can be seen on the site(Sorry, it's preparing now).
+
+### On C++
+
+Following code with WaveFileManager works that create wave file.
 ```C++
 //#include "wavefile_manager.h"
 
 //Declare variables
-WaveFileManager waveFile;
-MusicPropertyMonaural16bit prop16bit;
-short soundData[44100 * 2];
+MusicProperty musicProperty;
+WAVEFORMATEX format;
+unsigned char data[44100 * 6];
 
-//Generate sound data (440Hz)
-GenerateSoundMonaural16bits(soundData, 440);
-prop16bit = GenerateMonaural16bits(soundData, 44100 * 2);
+//Generate sound data (C4 - 3 second)
+generateSoundMonaural16bits(data, 44100 * 6, C4, 44100, 15000);
+
+//Generate contents of WaveFile
+generateWAVEFORMATEX(&format, MONAURAL_16BITS);
+generateMusicProperty(&musicProperty, &format, MONAURAL_16BITS, data, 44100 * 6);
+	
+
+createFile("C:\\capra.wav", &musicProperty);
+```
+
+### On C#
+
+Following code with WaveFileManager works that create wave file.(This code behaves just like above code.)
+```C#
+//using WFM;
+
+//Declare variables
+MusicProperty musicProperty = new MusicProperty();
+WAVEFORMATEX format = new WAVEFORMATEX();
+byte[] itibyou = new byte[44100 * 6];
+
+//Generate sound data (C4 - 3 second)
+WaveFileManager.GenerateSoundMonaural16bits(itibyou, Hertz.C4, 44100, 15000);
+
+//Generate contents of WaveFile
+WaveFileManager.GenerateWAVEFORMATEX(ref format, EDataType.MONAURAL_16BITS);
+WaveFileManager.GenerateMusicProperty(ref musicProperty, format, EDataType.MONAURAL_16BITS,itibyou);
 
 //Create WaveFile
-waveFile.CreateFile("C:\\capra.wav", prop16bit);
+WaveFileManager.CreateFile("C:\\capra.wav", musicProperty);
 ```
 
 ## Install
